@@ -16,7 +16,6 @@ public class Gestionamiento {
     public File archivo;
 
     public Gestionamiento() {
-        //materias.add(new Materia("calculo", 4.0, 3));
         materias = leerMaterias();
         //materias.add(new Materia("calculo", 4.0, 3));
     }
@@ -78,8 +77,8 @@ public class Gestionamiento {
         return false;
     }
 
-    public void guardarMaterias(ArrayList<Materia> materias) {
-        try (FileWriter fw = new FileWriter("src/mipromedio/DatoMaterias.txt");
+     public void guardarMaterias(ArrayList<Materia> materias) {
+        try (FileWriter fw = new FileWriter("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\Universidad\\ResumenMaterias\\DatoMaterias.txt");
              PrintWriter pw = new PrintWriter(fw)) {
             
     
@@ -90,15 +89,19 @@ public class Gestionamiento {
         } catch (IOException e) {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
-    }
-
+    } 
+    
     /*public static ArrayList<Materia> leerMaterias() {
         ArrayList<Materia> materias = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File("src/mipromedio/DatoMaterias.txt"))) {
+        try (Scanner sc = new Scanner(new File("C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\Universidad\\ResumenMaterias\\DatoMaterias.txt"))) {
             while (sc.hasNextLine()) {
                 String linea = sc.nextLine();
                 String[] datos = linea.split(",");
-                materias.add(new Materia(datos[0], Double.parseDouble(datos[1]), Integer.parseInt(datos[2])));
+                if (datos.length == 3) {
+                    materias.add(new Materia(datos[0], Float.parseFloat(datos[1]), Integer.parseInt(datos[2])));
+                } else {
+                    System.out.println("La línea " + linea + " no tiene los datos completos y se ignorará.");
+                }
             }
         } catch (FileNotFoundException e) {
             System.err.println("Error al leer el archivo: " + e.getMessage());
@@ -108,7 +111,16 @@ public class Gestionamiento {
     
     public static ArrayList<Materia> leerMaterias() {
         ArrayList<Materia> materias = new ArrayList<>();
-        try (Scanner sc = new Scanner(new File("src/mipromedio/DatoMaterias.txt"))) {
+        String filePath = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\Universidad\\ResumenMaterias\\DatoMaterias.txt";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.err.println("Error al crear el archivo: " + e.getMessage());
+            }
+        }
+        try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String linea = sc.nextLine();
                 String[] datos = linea.split(",");
